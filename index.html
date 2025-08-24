@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dove Luxury Funnel</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #fffaf5;
+      color: #333;
+    }
+    header {
+      background: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header img.logo {
+      height: 50px;
+      cursor: pointer;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .cart {
+      position: relative;
+      cursor: pointer;
+    }
+    .cart img {
+      height: 28px;
+      filter: drop-shadow(0 0 0px gold);
+      transition: 0.3s;
+    }
+    .cart.active img {
+      filter: drop-shadow(0 0 8px gold);
+    }
+    .cart-count {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      background: gold;
+      color: white;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 50%;
+    }
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      background: linear-gradient(135deg, #fffaf5, #fce9d6);
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: #444;
+    }
+    .btn {
+      background: gold;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      margin-top: 20px;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+    }
+    .section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .divider {
+      width: 60px;
+      height: 4px;
+      background: gold;
+      margin: 10px auto 30px;
+      border-radius: 2px;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 0 20px;
+    }
+    .product {
+      background: #fff;
+      border-radius: 15px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .product:hover {
+      transform: translateY(-5px);
+    }
+    .product img {
+      width: 100%;
+      border-radius: 10px;
+    }
+    .product h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      margin: 10px 0 5px;
+    }
+    .product p {
+      margin: 5px 0;
+    }
+    .quantity {
+      width: 60px;
+      padding: 5px;
+      margin: 5px 0;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #f8f8f8;
+    }
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 10px;
+    }
+    .socials img {
+      height: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .socials img:hover {
+      transform: scale(1.1);
+    }
+    /* Checkout popup */
+    .checkout-popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    .checkout-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 400px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .checkout-content h2 {
+      margin-top: 0;
+      font-family: 'Playfair Display', serif;
+    }
+    .checkout-items {
+      margin: 15px 0;
+      text-align: left;
+    }
+    .checkout-items p {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 5px 0;
+    }
+    .checkout-items button {
+      background: crimson;
+      color: white;
+      border: none;
+      padding: 3px 6px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .checkout-total {
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .close-btn {
+      background: crimson;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .benefits {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+    .card {
+      background: #fff;
+      padding: 15px 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      flex: 1 1 200px;
+    }
+
+    /* Responsive tweaks */
+    @media(max-width: 600px) {
+      .hero h1 { font-size: 1.8rem; }
+      .product h3 { font-size: 16px; }
+      .btn { font-size: 14px; padding: 10px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="dove-logo.png" alt="Dove" class="logo" onclick="scrollToTop()">
+  <nav>
+    <a onclick="document.getElementById('benefits').scrollIntoView({behavior:'smooth'})">Benefits</a>
+    <a onclick="document.getElementById('discover').scrollIntoView({behavior:'smooth'})">Discover Dove</a>
+    <a onclick="document.getElementById('discover').scrollIntoView({behavior:'smooth'})">Shop Now</a>
+    <div class="cart" onclick="openCheckout()">
+      <img src="cart-emoji.png" alt="Cart" id="cart-icon">
+      <div class="cart-count" id="cart-count">0</div>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Experience the Luxury of Dove</h1>
+  <p>Soft skin, deep nourishment, trusted care.</p>
+  <button class="btn" onclick="document.getElementById('benefits').scrollIntoView({behavior:'smooth'})">Discover Dove</button>
+</section>
+
+<!-- Benefits -->
+<section class="section" id="benefits">
+  <h2>Why Choose Dove?</h2>
+  <div class="divider"></div>
+  <div class="benefits">
+    <div class="card">🌿 Made with Natural Ingredients</div>
+    <div class="card">💧 Deep Moisturization</div>
+    <div class="card">🌸 Dermatologist Recommended</div>
+  </div>
+</section>
+
+<!-- Products -->
+<section class="section" id="discover">
+  <h2>Discover Dove</h2>
+  <div class="divider"></div>
+  <div class="products" id="products"></div>
+</section>
+
+<!-- Checkout Popup -->
+<div class="checkout-popup" id="checkout">
+  <div class="checkout-content">
+    <h2>Your Cart</h2>
+    <div class="checkout-items" id="checkout-items"></div>
+    <div class="checkout-total" id="checkout-total">Total: $0.00</div>
+    <button class="close-btn" onclick="closeCheckout()">Close</button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 Dove Funnel. All rights reserved.</p>
+  <div class="socials">
+    <a href="#"><img src="facebook-logo.png" alt="Facebook"></a>
+    <a href="#"><img src="instagram-logo.png" alt="Instagram"></a>
+    <a href="#"><img src="x-logo.png" alt="X"></a>
+  </div>
+</footer>
+
+<script>
+  const products = [
+    {name: "Dove Beauty Bar", price: 3.99, img: "dove-beautybar.jpg"},
+    {name: "Dove Body Wash", price: 5.99, img: "dove-bodywash.jpg"},
+    {name: "Dove Lotion", price: 6.99, img: "dove-lotion.jpg"},
+    {name: "Dove Shampoo", price: 4.99, img: "dove-shampoo.jpg"}
+  ];
+
+  const cart = [];
+  const cartCount = document.getElementById("cart-count");
+  const productsContainer = document.getElementById("products");
+  const checkoutPopup = document.getElementById("checkout");
+  const checkoutItems = document.getElementById("checkout-items");
+  const checkoutTotal = document.getElementById("checkout-total");
+
+  function renderProducts() {
+    productsContainer.innerHTML = "";
+    products.forEach((p, i) => {
+      productsContainer.innerHTML += `
+        <div class="product">
+          <img src="${p.img}" alt="${p.name}">
+          <h3>${p.name}</h3>
+          <p>$${p.price.toFixed(2)}</p>
+          <input type="number" id="qty-${i}" class="quantity" value="1" min="1">
+          <button class="btn" onclick="addToCart(${i})">Add to Cart</button>
+        </div>
+      `;
+    });
+  }
+
+  function addToCart(index) {
+    const qty = parseInt(document.getElementById(`qty-${index}`).value);
+    if (qty > 0) {
+      const existing = cart.find(item => item.name === products[index].name);
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cart.push({...products[index], qty});
+      }
+      updateCart();
+    }
+  }
+
+  function removeFromCart(name) {
+    const index = cart.findIndex(item => item.name === name);
+    if (index > -1) cart.splice(index, 1);
+    updateCart();
+  }
+
+  function updateCart() {
+    let totalItems = 0, totalPrice = 0;
+    checkoutItems.innerHTML = "";
+    cart.forEach(item => {
+      totalItems += item.qty;
+      totalPrice += item.price * item.qty;
+      checkoutItems.innerHTML += `<p>${item.name} x${item.qty} - $${(item.price * item.qty).toFixed(2)}
+        <button onclick="removeFromCart('${item.name}')">Remove</button>
+      </p>`;
+    });
+    cartCount.textContent = totalItems;
+    checkoutTotal.textContent = "Total: $" + totalPrice.toFixed(2);
+  }
+
+  function openCheckout() {
+    checkoutPopup.style.display = "flex";
+  }
+
+  function closeCheckout() {
+    checkoutPopup.style.display = "none";
+  }
+
+  function scrollToTop() {
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  renderProducts();
+</script>
+
+</body>
+</html>
